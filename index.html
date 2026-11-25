@@ -57,7 +57,7 @@ $("load").onclick=()=>$("file").click();
 $("file").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;f.text().then(t=>{const s=JSON.parse(t);if(valid(s)){S=s;persist();note("Speicherstand geladen.");}else note("Datei passt nicht zu diesem Spiel.");}).catch(()=>note("Datei konnte nicht geladen werden."));};
 $("reset").onclick=()=>{if(confirm("Eine neue Townscaper-Stadt starten? Der aktuelle Spielstand wird überschrieben.")){S=starter();cam={x:0,y:0};zoom=1;persist();note("Neue Stadt bereit.");}};
 function resize(){dpr=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);}
-function unit(){return Math.max(27,Math.min(62,Math.min(W,H)*.09))*zoom;}
+function unit(){const base=W<600?Math.max(16,W*.055):Math.max(27,Math.min(75,Math.min(W,H)*.11));return base*zoom;}
 function origin(){return [W*(W<600?.68:.69)+cam.x,H*.51+cam.y];}
 function project(x,y,z=0){const u=unit();return [(x-y)*u,(x+y)*u*.52-z*u*.92];}
 function screen(x,y,z=0){const o=origin(),p=project(x-.5,y,z);return [o[0]+p[0],o[1]+p[1]];}
