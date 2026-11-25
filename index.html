@@ -90,12 +90,12 @@ function draw(t){ctx.setTransform(dpr,0,0,dpr,0,0);const bg=ctx.createLinearGrad
  const u=unit(),o=origin(),xs=S.buildings.map(b=>b.x),ys=S.buildings.map(b=>b.y),cx=xs.length?(Math.min(...xs)+Math.max(...xs))/2:.5,cy=ys.length?(Math.min(...ys)+Math.max(...ys))/2:0,cp=screen(cx,cy,-.28);
  const glow=ctx.createRadialGradient(cp[0],cp[1]+u*.4,2,cp[0],cp[1]+u*.6,u*8);glow.addColorStop(0,"rgba(196,244,226,.19)");glow.addColorStop(1,"rgba(196,244,226,0)");ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
  ctx.strokeStyle="rgba(197,250,233,.18)";ctx.lineWidth=1.5;for(let r=0;r<4;r++){const k=1+.04*Math.sin(t/1300+r);ctx.beginPath();ctx.ellipse(cp[0],cp[1]+u*.35,u*(3.1+r*.35)*k,u*(1.02+r*.15)*k,0,0,Math.PI*2);ctx.stroke();}
- ctx.setTransform(dpr*u,0,0,dpr*u,dpr*o[0],dpr*o[1]);
+ ctx.setTransform(dpr,0,0,dpr,dpr*o[0],dpr*o[1]);
  // blurred reflection under the waterline
  ctx.save();ctx.globalAlpha=.13;ctx.translate(0,0);ctx.scale(1,-.33);ctx.filter="blur(2px)";drawCity();ctx.restore();ctx.filter="none";
  drawCity();
  // water glints
- for(let i=0;i<28;i++){const q=Math.sin(i*91.7)*43758.5,rx=q-Math.floor(q),qy=Math.sin(i*13.1+2)*2167.4,ry=qy-Math.floor(qy);ctx.fillStyle="rgba(219,250,233,"+(.06+.08*(.5+.5*Math.sin(t/900+i))).toFixed(2)+")";ctx.beginPath();ctx.ellipse((rx-.5)*W/u,(ry-.5)*H/u,1.5,0.7,0,0,Math.PI*2);ctx.fill();}
+ for(let i=0;i<28;i++){const q=Math.sin(i*91.7)*43758.5,rx=q-Math.floor(q),qy=Math.sin(i*13.1+2)*2167.4,ry=qy-Math.floor(qy);ctx.fillStyle="rgba(219,250,233,"+(.06+.08*(.5+.5*Math.sin(t/900+i))).toFixed(2)+")";ctx.beginPath();ctx.ellipse((rx-.5)*W,(ry-.5)*H,1.5,0.7,0,0,Math.PI*2);ctx.fill();}
  if(hover){const i=find(hover.x,hover.y);if(i<0)drawBuilding({x:hover.x,y:hover.y,color:selected,levels:1,rot:rotation},.48);const q=screen(hover.x,hover.y,0);ctx.beginPath();ctx.ellipse(q[0],q[1],u*.62,u*.33,0,0,Math.PI*2);ctx.fillStyle="rgba(255,255,255,.14)";ctx.fill();}
  requestAnimationFrame(draw);}
 function coords(mx,my){const u=unit(),o=origin(),a=(mx-o[0])/u,b=(my-o[1])/(u*.52);return {x:Math.round((a+b)/2+.5),y:Math.round((b-a)/2)};}
